@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 """
+
 import json
 
 from web3 import Web3
@@ -35,7 +36,6 @@ class ProdeMarketHTTP(web3NodeHTTP):
         self.abi = PRODE_MARKET_FACTORY_ABI
         self.contract = self.web3.eth.contract(address=self.address,
                                                abi=self.abi)
-        self.NewMarket_template = self.contract.events.NewMarket
         self.lastBlock = self.web3.eth.blockNumber
         print('Last Block in this chain: ', self.lastBlock)
 
@@ -61,31 +61,38 @@ class ProdeMarketHTTP(web3NodeHTTP):
     def main(self, startBlock):
         if startBlock:
             fromBlock = startBlock
+            self.lastBlock = startBlock
         else:
             fromBlock = self.lastBlock
         chainBN = self.web3.eth.blockNumber
         toBlock = chainBN \
             if chainBN < fromBlock + 1000 \
             else fromBlock + 1000
-        print(f'from: {fromBlock} - to: {toBlock}')
-        events = self.web3.eth.get_logs({
-            'fromBlock': fromBlock,
-            'toBlock': toBlock,
-            'address': self.address})
-        for event in events:
-            suc, res = self.handle_event(
-                event=event,
-                event_template=self.NewMarket_template)
-            if suc:
-                market_address = res['args']['market']
-                marketInfo = self.getMarketInfo(market_address)
-                print(f'New Market!: {marketInfo[3]}')
-                sendNewMarket(marketInfo)
-        self.lastBlock = toBlock
+        while self.lastBlock < chainBN:
+            print(f'from {fromBlock} | To {toBlock} | Address {self.address}')
+            events = self.web3.eth.get_logs({
+                'fromBlock': fromBlock,
+                'toBlock': toBlock,
+                'address': self.address})
+            for event in events:
+                if event['topics'][0].hex() == Web3.keccak(
+                        text="NewMarket(address,bytes32,address)").hex():
+                    suc, res = self.handle_event(
+                        event=event,
+                        event_template=self.contract.events.NewMarket)
+                    if suc:
+                        market_address = res['args']['market']
+                        marketInfo = self.getMarketInfo(market_address)
+                        print(f'New Market!: {marketInfo[3]}')
+                        sendNewMarket(marketInfo, market_address)
+
+            self.lastBlock = toBlock
+            fromBlock = toBlock + 1
+            toBlock = chainBN \
+                if chainBN < toBlock + 1000 \
+                else toBlock + 1000
 
 
 if __name__ == '__main__':
     pmf = ProdeMarketHTTP(PRODE_MARKET_FACTORY_ADDRESS)
-    # pmf.main(24028300)
-    mi = pmf.getMarketInfo('0x4b54878e499BC52BA29A78cA06b08e8CEAe0EA59')
-    sendNewMarket(mi)
+    pmf.main(24042482)
