@@ -3,8 +3,7 @@ import requests
 from telegram import sendNewAnswer, sendNewMarket
 
 
-#SUBGRAPH_API = "https://api.thegraph.com/subgraphs/name/prodeapp/prodeapp"https://api.thegraph.com/subgraphs/id/QmTHcESTuyK45yMnMsCJWjwX4fqVJqENWVurcVPAUp26Xf
-SUBGRAPH_API = "https://api.thegraph.com/subgraphs/id/QmTHcESTuyK45yMnMsCJWjwX4fqVJqENWVurcVPAUp26Xf"
+SUBGRAPH_API = "https://api.thegraph.com/subgraphs/name/prodeapp/prodeapp"
 
 
 def _post_query(query):
