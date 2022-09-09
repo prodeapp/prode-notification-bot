@@ -15,9 +15,18 @@ def sendMessage(msg):
                          data=params).json()
 
 
-def sendNewMarket(marketInfo, market_address):
+def sendNewMarket(market_name, market_address):
     text = ('New market has been created!.\n\n'
             'Place your [bets](http://prode.market/#/markets/'
-            f'{market_address.toLower()}) in the {marketInfo[3]}!')
+            f'{market_address.lower()}) in the {market_name}!')
     sendMessage(text)
+
+
+def sendNewAnswer(marketInfo, market_address, question, answer, bond):
+    text = (f'New Answer in a Prode Event!\n\n'
+            f'Market: [{marketInfo[3]}](http://prode.market/#/markets/{market_address}).\n'
+            f'Question: {question}\n'
+            f'Current Answer: {answer}\n\n'
+            f'Review it to win the deposit of {bond} xDAI'
+            )
     sendMessage(text)
