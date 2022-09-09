@@ -1,11 +1,8 @@
 import json
 from datetime import datetime
 from dotenv import load_dotenv
-from apscheduler.schedulers.blocking import BlockingScheduler
 
 from graphql import getNewAnswers, getNewMarkets
-
-load_dotenv()
 
 
 def main():
@@ -14,9 +11,11 @@ def main():
         getNewAnswers(timestamps['last_timestamp'])
         getNewMarkets(timestamps['last_timestamp'])
         timestamps['last_timestamp'] = datetime.now().timestamp()
-        f.write(json.dumps(timestamps, indent=4))
+        # go to the beggining of the file
+        f.seek(0)
+        json.dump(timestamps, f)
 
 
-scheduler = BlockingScheduler()
-scheduler.add_job(main, "interval", minutes=5)
-scheduler.start()
+if __name__ == '__main__':
+    load_dotenv()
+    main()
