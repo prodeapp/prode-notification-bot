@@ -11,8 +11,13 @@ CHAT_ID = '@prodeEventsNotifications'
 
 def sendMessage(msg):
     params = {'chat_id': CHAT_ID, 'text': msg, 'parse_mode': 'MarkDown'}
-    return requests.post(f'https://api.telegram.org/bot{BOT_TOKEN}/sendMessage',
-                         data=params).json()
+    try:
+        res = requests.post(f'https://api.telegram.org/bot{BOT_TOKEN}'
+                            '/sendMessage', data=params).json()
+    except Exception as e:
+        print(e)
+        res = None
+    return res
 
 
 def sendNewMarket(market_name, market_address):
@@ -22,9 +27,8 @@ def sendNewMarket(market_name, market_address):
     sendMessage(text)
 
 
-def sendNewAnswer(marketInfo, market_address, question, answer, bond):
+def sendNewAnswer(question, answer, bond):
     text = (f'New Answer in a Prode Event!\n\n'
-            f'Market: [{marketInfo[3]}](http://prode.market/#/markets/{market_address}).\n'
             f'Question: {question}\n'
             f'Current Answer: {answer}\n\n'
             f'Review it to win the deposit of {bond} xDAI'
