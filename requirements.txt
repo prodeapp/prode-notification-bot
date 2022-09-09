@@ -1,3 +1,4 @@
 requests
 apscheduler
 web3
+python-dotenv
