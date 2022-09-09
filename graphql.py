@@ -50,6 +50,8 @@ def getNewMarkets(timestamp):
         for market in data['markets']:
             print(f"New Market {market['name']}")
             sendNewMarket(market['name'], market['id'])
+    else:
+        print("No new markets")
 
 
 def getNewAnswers(timestamp):
@@ -76,6 +78,8 @@ def getNewAnswers(timestamp):
                                   event['outcomes'])
             print(f"New Answer for {event['title']}")
             sendNewAnswer(event['title'], answer, _wei2eth(event['lastBond']))
+    else:
+        print("No new answers")
 
 
 if __name__ == '__main__':
