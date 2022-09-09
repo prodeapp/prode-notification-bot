@@ -58,7 +58,7 @@ def _getAnswerText(outcomes, answer, template):
 def getNewAnswers(timestamp):
     """Get the markets created after a timestamp"""
     query = (
-        "{events(where:{lastAnswerTs:" + str(int(timestamp)) + "},"
+        "{events(where:{lastAnswerTs_gt:" + str(int(timestamp)) + "},"
         "orderBy:lastAnswerTs, orderDirection:asc){"
         """
             title
