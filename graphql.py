@@ -3,7 +3,8 @@ import requests
 from telegram import sendNewAnswer, sendNewMarket
 
 
-SUBGRAPH_API = "https://api.thegraph.com/subgraphs/name/prodeapp/prodeapp"
+#SUBGRAPH_API = "https://api.thegraph.com/subgraphs/name/prodeapp/prodeapp"https://api.thegraph.com/subgraphs/id/QmTHcESTuyK45yMnMsCJWjwX4fqVJqENWVurcVPAUp26Xf
+SUBGRAPH_API = "https://api.thegraph.com/subgraphs/id/QmTHcESTuyK45yMnMsCJWjwX4fqVJqENWVurcVPAUp26Xf"
 
 
 def _post_query(query):
@@ -47,6 +48,7 @@ def getNewMarkets(timestamp):
     data = _post_query(query)
     if data is not None:
         for market in data['markets']:
+            print(f"New Market {market['name']}")
             sendNewMarket(market['name'], market['id'])
 
 
@@ -75,6 +77,7 @@ def getNewAnswers(timestamp):
         for event in data['events']:
             answer = _getAnswerText(event['outcomes'], event['answer'],
                                     event['templateID'])
+            print(f"New Answer for {event['title']}")
             sendNewAnswer(event['title'], answer, _wei2eth(event['lastBond']))
 
 
