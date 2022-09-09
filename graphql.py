@@ -1,6 +1,7 @@
 import requests
 
 from telegram import sendNewAnswer, sendNewMarket
+from helpers import formatAnswer
 
 
 SUBGRAPH_API = "https://api.thegraph.com/subgraphs/name/prodeapp/prodeapp"
@@ -51,10 +52,6 @@ def getNewMarkets(timestamp):
             sendNewMarket(market['name'], market['id'])
 
 
-def _getAnswerText(outcomes, answer, template):
-    return answer
-
-
 def getNewAnswers(timestamp):
     """Get the markets created after a timestamp"""
     query = (
@@ -74,14 +71,15 @@ def getNewAnswers(timestamp):
     data = _post_query(query)
     if data is not None:
         for event in data['events']:
-            answer = _getAnswerText(event['outcomes'], event['answer'],
-                                    event['templateID'])
+            answer = formatAnswer(event['answer'],
+                                  event['templateID'],
+                                  event['outcomes'])
             print(f"New Answer for {event['title']}")
             sendNewAnswer(event['title'], answer, _wei2eth(event['lastBond']))
 
 
 if __name__ == '__main__':
     from datetime import datetime
-    lastTimestamp = datetime(2022, 7, 1, 0, 0, 0, 0).timestamp()
+    lastTimestamp = datetime(2022, 9, 1, 0, 0, 0, 0).timestamp()
     # getNewMarkets(lastTimestamp)
     getNewAnswers(lastTimestamp)
