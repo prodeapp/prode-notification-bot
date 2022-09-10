@@ -97,5 +97,6 @@ def write_last_timestamp(timestamp):
 if __name__ == '__main__':
     from dotenv import load_dotenv
     load_dotenv()
-    create_table()
-    # read_last_timestamp()
+
+    # create_table()
+    print(read_last_timestamp())
