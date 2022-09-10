@@ -8,7 +8,9 @@ from graphql import getNewAnswers, getNewMarkets
 def main():
     with open('timestamps.json', 'r+') as f:
         timestamps = json.load(f)
-        print("last timestamp that I've checked: {}".format(timestamps['last_timestamp']))
+        print("last timestamp that I've checked: {}"
+              .format(datetime.fromtimestamp(
+                  int(timestamps['last_timestamp']))))
         getNewAnswers(timestamps['last_timestamp'])
         getNewMarkets(timestamps['last_timestamp'])
         timestamps['last_timestamp'] = datetime.now().timestamp()
