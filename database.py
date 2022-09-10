@@ -1,10 +1,15 @@
 import os
+import ssl
 
 import psycopg2
 from datetime import datetime
 
 # read database connection url from the enivron variable we just set.
-DATABASE_URL = os.environ.get('DATABASE_URL')
+DB_URL = os.environ.get('DATABASE_URL')
+
+
+def connect():
+    return psycopg2.connect(DB_URL)
 
 
 def create_table():
@@ -18,8 +23,9 @@ def create_table():
     con = None
     try:
         # create a new database connection by calling the connect() function
-        con = psycopg2.connect(DATABASE_URL)
-
+        con = connect()
+        # switch on autocommit
+        con.autocommit = 1
         #  create a new cursor
         cur = con.cursor()
         cur.execute(cmd_create_action_table)
@@ -41,7 +47,7 @@ def read_last_timestamp():
     con = None
     try:
         # create a new database connection by calling the connect() function
-        con = psycopg2.connect(DATABASE_URL)
+        con = connect()
 
         #  create a new cursor
         cur = con.cursor()
@@ -67,7 +73,7 @@ def write_last_timestamp(timestamp):
     con = None
     try:
         # create a new database connection by calling the connect() function
-        con = psycopg2.connect(DATABASE_URL)
+        con = connect()
 
         #  create a new cursor
         cur = con.cursor()
@@ -88,5 +94,11 @@ def write_last_timestamp(timestamp):
 if __name__ == '__main__':
     from dotenv import load_dotenv
     load_dotenv()
+    DB_PASSWORD = os.environ.get('DB_PASSWORD')
+    DB_USER = os.environ.get('DB_USER')
+    DB_NAME = os.environ.get('DB_NAME')
+    
+
+    print(DB_USER)
     create_table()
-    read_last_timestamp()
+    # read_last_timestamp()
