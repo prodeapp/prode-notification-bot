@@ -12,7 +12,7 @@ DB_NAME = os.environ.get('DATABASE_NAME')
 
 def connect():
     return psycopg2.connect(host=DB_URL, password=DB_PASSWORD,
-                            user=DB_USER, dbname=DB_NAME, ssl='require')
+                            user=DB_USER, dbname=DB_NAME, sslmode='require')
 
 
 def create_table():
