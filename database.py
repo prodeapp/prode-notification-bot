@@ -9,7 +9,7 @@ DATABASE_URL = os.environ.get('DATABASE_URL')
 
 def create_table():
     cmd_create_action_table = """CREATE TABLE timestamps (
-                                last_timestamp bigint NOT NULL,
+                                last_timestamp bigint NOT NULL
                                 )
                             """
     cmd_init_timestamp = ("INSERT INTO timestamps(last_timestamp) VALUES ("
@@ -77,7 +77,6 @@ def write_last_timestamp(timestamp):
     except Exception as error:
         print('Could not connect to the Database.')
         print('Cause: {}'.format(error))
-        last_timestamp = None
     finally:
         # close the communication with the database server by calling the
         # close()
