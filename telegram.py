@@ -46,13 +46,16 @@ def sendNewMarket(market_name, market_address, bet_price, bet_deadline):
     sendMessage(text, button)
 
 
-def sendNewAnswer(question, answer, bond, market_name, market_id):
-    text = (f'New Answer in a Prode Event!\n\n'
-            f'*Market: {market_name}*\n\n'
-            f'Question: {question}\n\n'
-            f'Current Answer: {answer}\n\n'
-            f'Review it to win the deposit of {bond} xDAI'
-            )
+def sendNewAnswer(question, answer, bond, market_name, market_id, changed):
+    if changed is True:
+        text = 'Someone has changed the answer in this Prode Event!\n\n'
+    else:
+        text = 'This is the first answer in this Prode Event!\n\n'
+    text += (f'*Market: {market_name}*\n\n'
+             f'Question: {question}\n\n'
+             f'Current Answer: {answer}\n\n'
+             f'Review it to win the deposit of {bond} xDAI'
+             )
     button = {'text': '*Review Result*',
               'url': 'https://prode.market/#/markets/{}'.format(market_id)}
     sendMessage(text, button)
