@@ -56,6 +56,6 @@ def sendNewAnswer(question, answer, bond, market_name, market_id, changed):
              f'Current Answer: {answer}\n\n'
              f'Review it to win the deposit of {bond} xDAI'
              )
-    button = {'text': '*Review Result*',
+    button = {'text': 'Review Result',
               'url': 'https://prode.market/#/markets/{}'.format(market_id)}
     sendMessage(text, button)
