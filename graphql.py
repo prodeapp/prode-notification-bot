@@ -49,7 +49,9 @@ def getNewMarkets(timestamp):
     if data is not None:
         for market in data['markets']:
             print(f"New Market {market['name']}")
-            sendNewMarket(market['name'], market['id'])
+            sendNewMarket(market['name'], market['id'],
+                          _wei2eth(market['price']),
+                          market['closingTime'])
     else:
         print("No new markets")
 
@@ -66,6 +68,7 @@ def getNewAnswers(timestamp):
             answer
             lastBond
             templateID
+            markets{name, id}
             }
         }
         """
@@ -77,7 +80,9 @@ def getNewAnswers(timestamp):
                                   event['templateID'],
                                   event['outcomes'])
             print(f"New Answer for {event['title']}")
-            sendNewAnswer(event['title'], answer, _wei2eth(event['lastBond']))
+            sendNewAnswer(event['title'], answer, _wei2eth(event['lastBond']),
+                          event['markets'][0]['name'],
+                          event['markets'][0]['id'])
     else:
         print("No new answers")
 
@@ -85,5 +90,5 @@ def getNewAnswers(timestamp):
 if __name__ == '__main__':
     from datetime import datetime
     lastTimestamp = datetime(2022, 9, 1, 0, 0, 0, 0).timestamp()
-    # getNewMarkets(lastTimestamp)
-    getNewAnswers(lastTimestamp)
+    getNewMarkets(lastTimestamp)
+    # getNewAnswers(lastTimestamp)
