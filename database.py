@@ -1,18 +1,22 @@
 import os
-import ssl
 
 import psycopg2
 from datetime import datetime
 
 # read database connection url from the enivron variable we just set.
 DB_URL = os.environ.get('DATABASE_URL')
+DB_PASSWORD = os.environ.get('DATABASE_PASSWORD')
+DB_USER = os.environ.get('DATABASE_USER')
+DB_NAME = os.environ.get('DATABASE_NAME')
 
 
 def connect():
-    return psycopg2.connect(DB_URL, sslmode='require')
+    return psycopg2.connect(host=DB_URL, password=DB_PASSWORD,
+                            user=DB_USER, dbname=DB_NAME, ssl='require')
 
 
 def create_table():
+    print(DB_URL)
     cmd_create_action_table = """CREATE TABLE timestamps (
                                 last_timestamp bigint NOT NULL
                                 )
@@ -94,11 +98,5 @@ def write_last_timestamp(timestamp):
 if __name__ == '__main__':
     from dotenv import load_dotenv
     load_dotenv()
-    DB_PASSWORD = os.environ.get('DB_PASSWORD')
-    DB_USER = os.environ.get('DB_USER')
-    DB_NAME = os.environ.get('DB_NAME')
-    
-
-    print(DB_USER)
     create_table()
     # read_last_timestamp()
