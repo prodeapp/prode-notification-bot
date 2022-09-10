@@ -3,6 +3,7 @@ from datetime import datetime
 from dotenv import load_dotenv
 
 from graphql import getNewAnswers, getNewMarkets
+from database import create_table, read_last_timestamp
 
 
 def main():
@@ -21,4 +22,6 @@ def main():
 
 if __name__ == '__main__':
     load_dotenv()
-    main()
+    # main()
+    create_table()
+    read_last_timestamp()
