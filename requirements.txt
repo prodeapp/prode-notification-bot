@@ -2,4 +2,4 @@ requests
 apscheduler
 web3
 python-dotenv
-psycopg2
+sqlalchemy
