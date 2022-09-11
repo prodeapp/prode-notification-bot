@@ -1,6 +1,6 @@
 import os
 
-import psycopg2
+from sqlalchemy import create_engine
 from datetime import datetime
 
 # read database connection url from the enivron variable we just set.
@@ -11,9 +11,9 @@ DB_NAME = os.environ.get('DATABASE_NAME')
 
 
 def connect():
-    con = psycopg2.connect(host=DB_URL, sslmode='require')
-    con.autocommit = 1
-    return con
+    uri = os.environ.get('DATABASE_URL').replace('postgres:', 'postgresql:')
+    db = create_engine(uri, echo=False)
+    return db.connect()
 
 
 def create_table():
@@ -24,16 +24,11 @@ def create_table():
     cmd_init_timestamp = ("INSERT INTO timestamps(last_timestamp) VALUES ("
                           f"{int(datetime.timestamp(datetime.now()))})")
 
-    con = None
+    con = connect()
     try:
-        # create a new database connection by calling the connect() function
-        con = connect()
-        #  create a new cursor
-        cur = con.cursor()
-        cur.execute(cmd_create_action_table)
-        cur.execute(cmd_init_timestamp)
-        # close the communication with the HerokuPostgres
-        cur.close()
+        con.execute(cmd_create_action_table)
+        con.execute(cmd_init_timestamp)
+
     except Exception as error:
         print('Could not connect to the Database.')
         print('Cause: {}'.format(error))
@@ -51,13 +46,11 @@ def read_last_timestamp():
         # create a new database connection by calling the connect() function
         con = connect()
 
-        #  create a new cursor
-        cur = con.cursor()
-        cur.execute("SELECT last_timestamps FROM timestamps")
+        result = con.execute("SELECT last_timestamp FROM timestamps;")
 
         # close the communication with the HerokuPostgres
-        last_timestamp = cur.fetchone()
-        cur.close()
+        last_timestamp = result.fetchone()[0]
+        con.close()
     except Exception as error:
         print('Could not connect to the Database.')
         print('Cause: {}'.format(error))
@@ -77,10 +70,8 @@ def write_last_timestamp(timestamp):
         # create a new database connection by calling the connect() function
         con = connect()
 
-        #  create a new cursor
-        cur = con.cursor()
-        cur.execute(f"UPDATE timestamps SET last_timestamp={int(timestamp)}")
-        cur.close()
+        con.execute(f"UPDATE timestamps SET last_timestamp={int(timestamp)}")
+        con.close()
     except Exception as error:
         print('Could not connect to the Database.')
         print('Cause: {}'.format(error))
@@ -93,11 +84,11 @@ def write_last_timestamp(timestamp):
 
 
 if __name__ == '__main__':
-    from dotenv import load_dotenv
-    load_dotenv()
+    # from dotenv import load_dotenv
+    # load_dotenv()
 
-    create_table()
-    ts = int(datetime.timestamp(datetime.now()))
+    # create_table()
+    ts = int(datetime.timestamp(datetime.now())) + 10000
     print('writing ts: ', ts)
     write_last_timestamp(ts)
     print(read_last_timestamp())
