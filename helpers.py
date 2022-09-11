@@ -1,8 +1,8 @@
 
 REALITY_TEMPLATE_SINGLE_SELECT = '2'
 REALITY_TEMPLATE_MULTIPLE_SELECT = '3'
-INVALID_RESULT = "0x" + "f" * 40
-ANSWERED_TOO_SOON = "0x" + "f" * 39 + "e"
+INVALID_RESULT = "0x" + "f" * 64
+ANSWERED_TOO_SOON = "0x" + "f" * 63 + "e"
 
 
 def formatAnswer(currentAnswer, templateID, outcomes):
