@@ -3,3 +3,4 @@ apscheduler
 web3
 python-dotenv
 sqlalchemy
+psycopg2
