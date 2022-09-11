@@ -9,12 +9,15 @@ from database import read_last_timestamp, write_last_timestamp
 
 def main():
 
-    timestamps = read_last_timestamp()
+    timestamp = read_last_timestamp()
+    if timestamp is None:
+        print("No timestamp found in the database")
+        return
     print("last timestamp that I've checked: {}"
           .format(datetime.fromtimestamp(
-              int(timestamps['last_timestamp']))))
-    getNewAnswers(timestamps['last_timestamp'])
-    getNewMarkets(timestamps['last_timestamp'])
+              int(timestamp))))
+    getNewAnswers(timestamp)
+    getNewMarkets(timestamp)
     write_last_timestamp(int(datetime.now().timestamp()))
 
 
