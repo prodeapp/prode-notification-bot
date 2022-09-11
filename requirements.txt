@@ -4,3 +4,4 @@ web3
 python-dotenv
 sqlalchemy
 psycopg2
+tweepy

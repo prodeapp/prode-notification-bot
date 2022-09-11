@@ -10,10 +10,6 @@ load_dotenv()  # take environment variables from .env.
 BOT_TOKEN = os.environ.get('TELEGRAM_TOKEN')
 CHAT_ID = '@prodeEventsNotifications'
 
-MEDAL_1 = '\U0001F947'
-MONOCLE = '\U0001f9d0'
-MONEY_FACE = '\U0001f911'
-
 
 def sendMessage(msg, button=None):
     params = {'chat_id': CHAT_ID, 'text': msg, 'parse_mode': 'MarkDown'}
@@ -36,30 +32,3 @@ def sendMessage(msg, button=None):
         res = None
     return res
 
-
-def sendNewMarket(market_name, market_address, bet_price, bet_deadline):
-    bet_deadline_date = datetime.fromtimestamp(
-        int(bet_deadline)).strftime('%Y-%m-%d %H:%M')
-    text = ('New market has been created!.\n\n'
-            f'*Name: {market_name}*\n\n'
-            f'Bet Price: {bet_price:.2f} xDAI\n\n'
-            f'Hurry Up!, you have time until {bet_deadline_date}')
-    button = {'text': MEDAL_1 + ' Place Your Bet ' + MEDAL_1,
-              'url': 'https://prode.market/#/markets/{}'.format(
-                  market_address.lower())}
-    sendMessage(text, button)
-
-
-def sendNewAnswer(question, answer, bond, market_name, market_id, changed):
-    if changed is True:
-        text = MONOCLE + ' Someone has changed the answer in this Prode Event!\n\n'
-    else:
-        text = MONOCLE + ' This is the first answer in this Prode Event!\n\n'
-    text += (f'*Market: {market_name}*\n\n'
-             f'Question: {question}\n\n'
-             f'Current Answer: {answer}\n\n'
-             f'Review it to win a bond of {bond} xDAI'
-             )
-    button = {'text': 'Review Result and earn the bond ' + MONEY_FACE,
-              'url': 'https://prode.market/#/markets/{}'.format(market_id)}
-    sendMessage(text, button)
