@@ -17,7 +17,7 @@ def connect():
 
 
 def create_table():
-    cmd_create_action_table = """CREATE TABLE timestamps (
+    cmd_create_action_table = """CREATE TABLE IF NOT EXISTS timestamps (
                                 last_timestamp bigint NOT NULL
                                 )
                             """
@@ -96,5 +96,8 @@ if __name__ == '__main__':
     from dotenv import load_dotenv
     load_dotenv()
 
-    # create_table()
+    create_table()
+    ts = int(datetime.timestamp(datetime.now()))
+    print('writing ts: ', ts)
+    write_last_timestamp(ts)
     print(read_last_timestamp())
