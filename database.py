@@ -11,11 +11,12 @@ DB_NAME = os.environ.get('DATABASE_NAME')
 
 
 def connect():
-    return psycopg2.connect(host=DB_URL, sslmode='require')
+    con = psycopg2.connect(host=DB_URL, sslmode='require')
+    con.autocommit = 1
+    return con
 
 
 def create_table():
-    print(DB_URL)
     cmd_create_action_table = """CREATE TABLE timestamps (
                                 last_timestamp bigint NOT NULL
                                 )
@@ -27,8 +28,6 @@ def create_table():
     try:
         # create a new database connection by calling the connect() function
         con = connect()
-        # switch on autocommit
-        con.autocommit = 1
         #  create a new cursor
         cur = con.cursor()
         cur.execute(cmd_create_action_table)
@@ -81,7 +80,6 @@ def write_last_timestamp(timestamp):
         #  create a new cursor
         cur = con.cursor()
         cur.execute(f"UPDATE timestamps SET last_timestamp={int(timestamp)}")
-
         cur.close()
     except Exception as error:
         print('Could not connect to the Database.')
