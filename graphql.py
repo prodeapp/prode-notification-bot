@@ -3,6 +3,7 @@ import requests
 from telegram import sendMessage
 from twitter import post_tweet
 from helpers import formatAnswer
+from datetime import datetime
 
 
 SUBGRAPH_API = "https://api.thegraph.com/subgraphs/name/prodeapp/prodeapp"
@@ -132,7 +133,6 @@ def sendNewAnswer(question, answer, bond, market_name, market_id, changed):
 
 
 if __name__ == '__main__':
-    from datetime import datetime
     lastTimestamp = datetime(2022, 9, 9, 0, 0, 0, 0).timestamp()
     # getNewMarkets(lastTimestamp)
     getNewAnswers(1661860740)
