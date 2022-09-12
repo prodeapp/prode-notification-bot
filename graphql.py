@@ -127,7 +127,7 @@ def sendNewAnswer(question, answer, bond, market_name, market_id, changed):
     sendMessage(text, button)
     text = (base_text + f'Q: {question}\n'
             f'A: {answer}\n' + f'Review to earn the {bond} xDAI bond '
-            + MONEY_FACE + f'\nhttps://prode.market/#/market/{market_id}')
+            + MONEY_FACE + f'\nhttps://prode.market/#/markets/{market_id}')
     post_tweet(text)
 
 
