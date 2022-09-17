@@ -47,6 +47,7 @@ def getNewMarkets(timestamp):
             category
             closingTime
             price
+            category
             }
         }
         """
@@ -75,7 +76,7 @@ def getNewAnswers(timestamp):
             minBond
             lastBond
             templateID
-            markets{name, id}
+            markets{name, id, category}
             }
         }
         """
@@ -97,7 +98,8 @@ def getNewAnswers(timestamp):
         print("No new answers")
 
 
-def sendNewMarket(market_name, market_address, bet_price, bet_deadline):
+def sendNewMarket(market_name, market_address, bet_price, bet_deadline,
+                  category=None):
     bet_deadline_date = datetime.fromtimestamp(
         int(bet_deadline)).strftime('%Y-%m-%d %H:%M')
     text = ('New market has been created!.\n\n'
@@ -111,7 +113,8 @@ def sendNewMarket(market_name, market_address, bet_price, bet_deadline):
     post_tweet(text)
 
 
-def sendNewAnswer(question, answer, bond, market_name, market_id, changed):
+def sendNewAnswer(question, answer, bond, market_name, market_id, changed,
+                  category=None):
     if changed is True:
         base_text = MONOCLE + ' Someone has changed the answer in this Prode' \
             + ' Event!\n\n'
