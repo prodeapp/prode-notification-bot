@@ -30,6 +30,7 @@ def post_tweet(message):
     except Exception as e:
         print('Error trying to tweet!.')
         print(e)
+        response = None
     return response
 
 
