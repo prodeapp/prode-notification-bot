@@ -9,5 +9,5 @@ load_dotenv()
 
 DB_URL = os.environ.get('DATABASE_URL')
 scheduler = BlockingScheduler()
-scheduler.add_job(main, "interval", minutes=1)
+scheduler.add_job(main, "interval", minutes=2)
 scheduler.start()
