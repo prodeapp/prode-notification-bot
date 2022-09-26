@@ -14,9 +14,11 @@ def main():
     print("last timestamp that I've checked: {}"
           .format(datetime.fromtimestamp(
               int(timestamp))))
-    getNewAnswers(timestamp)
-    getNewMarkets(timestamp)
-    write_last_timestamp(int(datetime.now().timestamp()))
+    lastAnswerTime = getNewAnswers(timestamp)
+    lastMarketTime = getNewMarkets(timestamp)
+    lastTime = max(lastAnswerTime, lastMarketTime)
+    if lastTime > 0:
+        write_last_timestamp(int(datetime.now().timestamp()))
 
 
 if __name__ == '__main__':

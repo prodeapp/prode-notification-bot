@@ -48,6 +48,7 @@ def getNewMarkets(timestamp):
             closingTime
             price
             category
+            creationTime
             }
         }
         """
@@ -59,8 +60,10 @@ def getNewMarkets(timestamp):
             sendNewMarket(market['name'], market['id'],
                           _wei2eth(market['price']),
                           market['closingTime'])
+        return int(market['creationTime'])
     else:
         print("No new markets")
+        return 0
 
 
 def getNewAnswers(timestamp):
@@ -76,6 +79,7 @@ def getNewAnswers(timestamp):
             minBond
             lastBond
             templateID
+            lastAnswerTs
             markets{name, id, category}
             }
         }
@@ -94,8 +98,11 @@ def getNewAnswers(timestamp):
                           event['markets'][0]['id'],
                           changed_answer
                           )
+        # the later timestamp in answers
+        return int(event['lastAnswerTs'])
     else:
         print("No new answers")
+    return 0
 
 
 def sendNewMarket(market_name, market_address, bet_price, bet_deadline,
