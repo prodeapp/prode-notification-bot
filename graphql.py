@@ -11,6 +11,7 @@ SUBGRAPH_API = "https://api.thegraph.com/subgraphs/name/prodeapp/prodeapp"
 MEDAL_1 = '\U0001F947'
 MONOCLE = '\U0001f9d0'
 MONEY_FACE = '\U0001f911'
+PARTY = '\U0001F389'
 
 
 def _post_query(query):
@@ -109,7 +110,7 @@ def sendNewMarket(market_name, market_address, bet_price, bet_deadline,
                   category=None):
     bet_deadline_date = datetime.fromtimestamp(
         int(bet_deadline)).strftime('%Y-%m-%d %H:%M')
-    text = ('New market has been created!.\n\n'
+    text = (PARTY + PARTY + ' New market has been created!.\n\n'
             f'*Name: {market_name}*\n\n'
             f'Bet Price: {bet_price:.2f} xDAI\n\n'
             f'Hurry Up!, you have time until {bet_deadline_date}')
