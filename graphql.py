@@ -109,13 +109,13 @@ def getNewAnswers(timestamp):
 def sendNewMarket(market_name, market_address, bet_price, bet_deadline,
                   category=None):
     bet_deadline_date = datetime.fromtimestamp(
-        int(bet_deadline)).strftime('%Y-%m-%d %H:%M')
+        int(bet_deadline)).strftime('%Y-%m-%d %H:%M') + ' UTC'
     text = (PARTY + PARTY + ' New market has been created!.\n\n'
             f'*Name: {market_name}*\n\n'
             f'Bet Price: {bet_price:.2f} xDAI\n\n'
             f'Hurry Up!, you have time until {bet_deadline_date}')
     button = {'text': MEDAL_1 + ' Place Your Bet ' + MEDAL_1,
-              'url': 'https://prode.market/#/markets/{}'.format(
+              'url': 'https://prode.market/#/markets/100/{}'.format(
                   market_address.lower())}
     sendMessage(text, button)
     post_tweet(text)
@@ -135,11 +135,11 @@ def sendNewAnswer(question, answer, bond, market_name, market_id, changed,
                         f'Review it to win a bond of {bond} xDAI'
                         )
     button = {'text': 'Review Result and earn the bond ' + MONEY_FACE,
-              'url': 'https://prode.market/#/markets/{}'.format(market_id)}
+              'url': 'https://prode.market/#/markets/100/{}'.format(market_id)}
     sendMessage(text, button)
     text = (base_text + f'Q: {question}\n'
             f'A: {answer}\n' + f'Review to earn the {bond} xDAI bond '
-            + MONEY_FACE + f'\nhttps://prode.market/#/markets/{market_id}')
+            + MONEY_FACE + f'\nhttps://prode.market/#/markets/100/{market_id}')
     post_tweet(text)
 
 
