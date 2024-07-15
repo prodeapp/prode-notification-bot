@@ -6,7 +6,7 @@ from helpers import formatAnswer
 from datetime import datetime
 
 
-SUBGRAPH_API = "https://api.thegraph.com/subgraphs/name/prodeapp/prodeapp"
+SUBGRAPH_API = "https://api.studio.thegraph.com/proxy/66145/prodeapp/version/latest"
 
 MEDAL_1 = '\U0001F947'
 MONOCLE = '\U0001f9d0'
